@@ -1,0 +1,52 @@
+/* ChipComponent.css */
+.chip-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .chip {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .remove {
+    margin-left: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: red;
+  }
+  
+  .input {
+    margin-top: 5px;
+    padding: 5px;
+  }
+  
+  .item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 100px;
+    overflow-y: auto;
+  }
+  
+  .item-list li {
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .item-list li:hover {
+    background-color: #f0f0f0;
+  }
+  
