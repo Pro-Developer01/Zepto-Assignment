@@ -126,7 +126,7 @@ const ChipComponent: React.FC = () => {
         </div>
 
         {openDailog && (
-          <ul className="item-list">
+          <ul className="item-list dropdown-box">
             {filteredItems.map((item) => (
               <li key={item} onClick={() => handleChipClick(item)}>
                 {item}
