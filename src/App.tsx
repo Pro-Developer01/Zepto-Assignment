@@ -1,9 +1,8 @@
-import ChipComponent from './component/Chip'
+import ChipComponent from "./component/Chip";
+import ShashanksChipComponent from "./component/ShashanksChip";
 
 function App() {
-  return (
-    <ChipComponent/>
-  )
+  return <ShashanksChipComponent />;
 }
 
-export default App
+export default App;
