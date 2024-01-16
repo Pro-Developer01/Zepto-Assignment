@@ -103,12 +103,11 @@ const ChipComponent: React.FC = () => {
           {/* </div> */}
           {/* //input Element  */}
 
-          <div>
-            <span>{inputValue ? inputValue : "Type user name.." }</span>
+          <div className={inputValue?.length?'':'input-placeholder-wrapper'}>
+            <span className={inputValue?.length?'':'input-placeholder'}>{inputValue?.length ? inputValue : "Type user name.." }</span>
           </div>
 
           <input
-            placeholder="Add new user..."
             ref={inputRef}
             type="text"
             value={inputValue}
