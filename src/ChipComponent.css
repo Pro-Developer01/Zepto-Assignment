@@ -2,7 +2,8 @@
 .chip-container-wrapper {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 50%;
+  justify-content: center;
 }
 
 .chip-container {
@@ -24,12 +25,12 @@
 
 .chip {
   background-color: #e0e0e0;
-    padding: 3px 6px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-right: 2px;
+  padding: 3px 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2px;
 }
 
 .remove {
@@ -42,14 +43,13 @@
 
 .input {
   width: 1px;
-    border: none;
-    height: 100%;
-    color: transparent;
-    caret-color: black;
-  
+  border: none;
+  height: 100%;
+  color: transparent;
+  caret-color: black;
 }
 
-.input:focus{
+.input:focus {
   outline: none;
 }
 
@@ -69,3 +69,4 @@
 .item-list li:hover {
   background-color: #f0f0f0;
 }
+
