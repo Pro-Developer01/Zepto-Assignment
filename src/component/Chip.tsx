@@ -11,38 +11,38 @@ interface Chip {
   id: number;
   label: string;
 }
+const items: string[] = [
+  "John Doe",
+  "Jane Smith",
+  "Nick Giannopoulos",
+  "Alice Johnson",
+  "Alison George",
+  "Berkley Hudson",
+  "Jhon wick",
+];
 
 const ChipComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [chips, setChips] = useState<Chip[]>([]);
-  const [filteredItems, setFilteredItems] = useState<string[]>([]);
+  const [filteredItems, setFilteredItems] = useState<string[]>(items);
+  const [openDailog, setOpenDailog] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const items: string[] = [
-    "John Doe",
-    "Jane Smith",
-    "Nick Giannopoulos",
-    "Alice Johnson",
-    "Alison George",
-    "Berkley Hudson",
-    "Jhon wick",
-  ];
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
-
-    // if (value.trim() === "") {
-    //   setFilteredItems([]);
-    // } else {
-      const filtered = items.filter((item) =>
-        item.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredItems(filtered);
-    // }
+    setOpenDailog(true)
+    const tempArray = items.filter((item) => {
+      if (!JSON.stringify(chips).includes(item)) return true;
+    });
+    const filtered = tempArray.filter((item) =>
+      item.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredItems(filtered);
   };
 
   const handleChipClick = (item: string) => {
+    console.log({item})
     setChips((prevChips) => [...prevChips, { id: Date.now(), label: item }]);
     setInputValue("");
     setFilteredItems(
@@ -73,11 +73,13 @@ const ChipComponent: React.FC = () => {
 
   return (
     <center>
-      <div style={{
-          fontSize : 30,
-          color : "#800080",
+      <div
+        style={{
+          fontSize: 30,
+          color: "#800080",
           fontFamily: "Times New Roman",
-      }}>
+        }}
+      >
         Pick users
       </div>
       <div className="chip-container-wrapper">
@@ -85,10 +87,10 @@ const ChipComponent: React.FC = () => {
           className="chip-container"
           onClick={() => {
             inputRef.current?.focus();
+            setOpenDailog(!openDailog)
           }}
         >
           {/* //chips  */}
-          {/* <div className="chips"> */}
           {chips.map((chip) => (
             <div key={chip.id} className="chip">
               {chip.label}
@@ -100,11 +102,14 @@ const ChipComponent: React.FC = () => {
               </button>
             </div>
           ))}
-          {/* </div> */}
           {/* //input Element  */}
 
-          <div className={inputValue?.length?'':'input-placeholder-wrapper'}>
-            <span className={inputValue?.length?'':'input-placeholder'}>{inputValue?.length ? inputValue : "Type user name.." }</span>
+          <div
+            className={inputValue?.length ? "" : "input-placeholder-wrapper"}
+          >
+            <span className={inputValue?.length ? "" : "input-placeholder"}>
+              {inputValue?.length ? inputValue : "Type user name.."}
+            </span>
           </div>
 
           <input
@@ -113,19 +118,22 @@ const ChipComponent: React.FC = () => {
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
-            // onClick={inputClickHandler}
+            // onBlur={() => {
+            //   setOpenDailog(false);
+            // }}
             className="input"
-            // style={{width:`${inputValue?.length*12||4}px`}}
           />
         </div>
 
-        <ul className="item-list">
-          {filteredItems.map((item) => (
-            <li key={item} onClick={() => handleChipClick(item)}>
-              {item}
-            </li>
-          ))}
-        </ul>
+        {openDailog && (
+          <ul className="item-list">
+            {filteredItems.map((item) => (
+              <li key={item} onClick={() => handleChipClick(item)}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </center>
   );

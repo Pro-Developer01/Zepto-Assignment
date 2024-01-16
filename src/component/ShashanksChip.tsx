@@ -16,28 +16,30 @@ const items: string[] = [
   "Jane Smith",
   "Nick Giannopoulos",
   "Alice Johnson",
+  "shashank",
+  "kiran",
+  "abhinav",
+  "richa",
 ];
 
 const ShashanksChipComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [chips, setChips] = useState<Chip[]>([]);
-  const [filteredItems, setFilteredItems] = useState<string[]>([]);
+  const [filteredItems, setFilteredItems] = useState<string[]>(items);
+  // const [allItems, setAllItems] = useState<string[]>(items);
+  const [openDailog, setOpenDailog] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    console.log("target", inputRef.current?.offsetWidth);
-
     setInputValue(value);
-
-    if (value.trim() === "") {
-      setFilteredItems([]);
-    } else {
-      const filtered = items.filter((item) =>
-        item.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredItems(filtered);
-    }
+    const tempArray = items.filter((item) => {
+      if (!JSON.stringify(chips).includes(item)) return true;
+    });
+    const filtered = tempArray.filter((item) =>
+      item.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredItems(filtered);
   };
 
   const handleChipClick = (item: string) => {
@@ -56,11 +58,6 @@ const ShashanksChipComponent: React.FC = () => {
     }
   };
 
-  const inputClickHandler = () => {
-    if (chips?.length >= items?.length) return;
-
-    setFilteredItems(filteredItems?.length ? filteredItems : items);
-  };
   const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace" && inputValue === "" && chips.length > 0) {
       // Highlight and remove the last chip when backspace is pressed with an empty input
@@ -80,22 +77,21 @@ const ShashanksChipComponent: React.FC = () => {
         className="chip-container"
         onClick={() => {
           inputRef.current?.focus();
+          setOpenDailog(true);
         }}
       >
         {/* //chips  */}
-        {/* <div className="chips"> */}
-          {chips.map((chip) => (
-            <div key={chip.id} className="chip">
-              {chip.label}
-              <button
-                className="remove"
-                onClick={() => handleChipRemove(chip.id)}
-              >
-                X
-              </button>
-            </div>
-          ))}
-        {/* </div> */}
+        {chips.map((chip) => (
+          <div key={chip.id} className="chip">
+            {chip.label}
+            <button
+              className="remove"
+              onClick={() => handleChipRemove(chip.id)}
+            >
+              X
+            </button>
+          </div>
+        ))}
         {/* //input Element  */}
         <div>
           <span>{inputValue}</span>
@@ -106,20 +102,23 @@ const ShashanksChipComponent: React.FC = () => {
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
-          onClick={inputClickHandler}
+          onBlur={() => {
+            setOpenDailog(false);
+          }}
           className="input"
           // style={{width:`${inputValue?.length*12||4}px`}}
         />
-        
       </div>
 
-      <ul className="item-list">
-        {filteredItems.map((item) => (
-          <li key={item} onClick={() => handleChipClick(item)}>
-            {item}
-          </li>
-        ))}
-      </ul>
+      {openDailog && (
+        <ul className="item-list">
+          {filteredItems.map((item) => (
+            <li key={item} onClick={() => handleChipClick(item)}>
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
